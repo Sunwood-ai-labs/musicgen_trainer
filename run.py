@@ -17,6 +17,8 @@ parser.add_argument('--grad_acc', type=int, required=False, default=2)
 parser.add_argument('--warmup_steps', type=int, required=False, default=16)
 parser.add_argument('--batch_size', type=int, required=False, default=4)
 parser.add_argument('--use_cfg', type=int, required=False, default=0)
+parser.add_argument('--repeat_dataset', type=int, required=False, default=1)
+
 args = parser.parse_args()
 
 train(
@@ -34,4 +36,5 @@ train(
     warmup_steps=args.warmup_steps,
     batch_size=args.batch_size,
     use_cfg=args.use_cfg,
+    repeat_dataset=args.repeat_dataset,  
 )
