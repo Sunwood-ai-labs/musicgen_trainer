@@ -17,11 +17,11 @@ import os
 
 
 class AudioDataset(Dataset):
-    def __init__(self, data_dir, no_label=False):
+    def __init__(self, data_dir, no_label=False, repeat_dataset=1):
         self.data_dir = data_dir
         self.data_map = []
 
-        dir_map = os.listdir(data_dir)
+        dir_map = os.listdir(data_dir) * repeat_dataset  # 繰り返しを適用
         for d in dir_map:
             name, ext = os.path.splitext(d)
             if ext == ".wav":
@@ -114,7 +114,8 @@ def train(
     weight_decay: float = 1e-5,
     warmup_steps: int = 10,
     batch_size: int = 10,
-    use_cfg: bool = False
+    use_cfg: bool = False,
+    repeat_dataset: int = 1,
 ):
     if use_wandb:
         run = wandb.init(project="audiocraft")
@@ -122,7 +123,7 @@ def train(
     model = MusicGen.get_pretrained(model_id)
     model.lm = model.lm.to(torch.float32)  # important
 
-    dataset = AudioDataset(dataset_path, no_label=no_label)
+    dataset = AudioDataset(dataset_path, no_label=no_label, repeat_dataset=repeat_dataset)
     train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     learning_rate = lr
