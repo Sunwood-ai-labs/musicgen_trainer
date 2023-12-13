@@ -234,11 +234,15 @@ def train(
                     pass
             total_norm = total_norm ** (1.0 / 2)
 
+            # Retrieve the current learning rate from the scheduler
+            current_lr = scheduler.get_last_lr()[0]
+
             if use_wandb:
                 run.log(
                     {
                         "loss": loss.item(),
                         "total_norm": total_norm,
+                        "learning_rate": current_lr,  # Log the learning rate
                     }
                 )
 
