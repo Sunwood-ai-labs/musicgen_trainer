@@ -264,13 +264,16 @@ def train(
                 optimizer.step()
             scheduler.step()
 
-            if save_models:
-                if (
-                    current_step == int(current_step)
-                    and int(current_step) % save_step == 0
-                ):
-                    torch.save(
-                        model.lm.state_dict(), f"{save_path}/lm_{current_step}.pt"
-                    )
+            # if save_models:
+            #     if (
+            #         current_step == int(current_step)
+            #         and int(current_step) % save_step == 0
+            #     ):
+            #         torch.save(
+            #             model.lm.state_dict(), f"{save_path}/lm_{current_step}.pt"
+            #         )
+            
+        # エポック終了時にモデルを保存
+        torch.save(model.lm.state_dict(), f"{save_path}/lm_epoch_{epoch:05d}.pt")
 
     torch.save(model.lm.state_dict(), f"{save_path}/lm_final.pt")
