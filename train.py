@@ -116,9 +116,10 @@ def train(
     batch_size: int = 10,
     use_cfg: bool = False,
     repeat_dataset: int = 1,
+    wandb_project: str,
 ):
     if use_wandb:
-        run = wandb.init(project="audiocraft")
+        run = wandb.init(project=wandb_project)
 
     model = MusicGen.get_pretrained(model_id)
     model.lm = model.lm.to(torch.float32)  # important
