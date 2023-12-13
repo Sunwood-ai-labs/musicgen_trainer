@@ -119,7 +119,35 @@ def train(
     wandb_project: str,
 ):
     if use_wandb:
+        # Weights & Biasesのセッションを初期化します。ここで、'project' 引数には、
+        # WandBダッシュボード上でプロジェクトを識別するための名前を指定します。
+        # 'wandb_project' 変数は、このプロジェクトの名前を格納します。
+        # WandBの初期化は、ログ記録やパラメータ追跡のために必要です。
         run = wandb.init(project=wandb_project)
+
+        # WandBの設定オブジェクトを更新します。wandb.config.updateを使用して、
+        # トレーニング実験に関連するすべての重要なパラメータをWandBに記録します。
+        # これにより、実験の実行に使用された具体的な設定を追跡できるようになります。
+        # 例えば、どのデータセットが使用されたか、学習率はいくつか、
+        # トレーニングは何エポック行われたかなどの情報が含まれます。
+        wandb.config.update({
+            "dataset_path": dataset_path,  # データセットが保存されているパス
+            "model_id": model_id,         # 使用するモデルの識別子
+            "save_path": save_path,       # トレーニング後のモデルを保存するパス
+            "lr": lr,                     # 学習率
+            "epochs": epochs,             # トレーニングを行う総エポック数
+            "use_wandb": use_wandb,       # WandBの使用有無
+            "no_label": no_label,         # ラベルなしでデータセットを使用するかどうか
+            "tune_text": tune_text,       # テキストチューニングを行うかどうか
+            "save_step": save_step,       # どのステップでモデルを保存するか
+            "grad_acc": grad_acc,         # 勾配累積のステップ数
+            "use_scaler": use_scaler,     # スケーラーを使用するかどうか
+            "weight_decay": weight_decay, # 重み減衰率
+            "warmup_steps": warmup_steps, # ウォームアップステップ数
+            "batch_size": batch_size,     # バッチサイズ
+            "use_cfg": use_cfg,           # 設定ファイルを使用するかどうか
+            "repeat_dataset": repeat_dataset # データセットの繰り返し回数
+        })
 
     model = MusicGen.get_pretrained(model_id)
     model.lm = model.lm.to(torch.float32)  # important
