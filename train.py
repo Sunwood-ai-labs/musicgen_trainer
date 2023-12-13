@@ -116,7 +116,7 @@ def train(
     batch_size: int = 10,
     use_cfg: bool = False,
     repeat_dataset: int = 1,
-    wandb_project: str,
+    wandb_project: str = "audiocraft",
 ):
     if use_wandb:
         # Weights & Biasesのセッションを初期化します。ここで、'project' 引数には、
