@@ -116,6 +116,7 @@ def train(
     batch_size: int = 10,
     use_cfg: bool = False,
     repeat_dataset: int = 1,
+    resume_model_path: str = None,
     wandb_project: str = "audiocraft",
 ):
     if use_wandb:
@@ -149,7 +150,10 @@ def train(
             "repeat_dataset": repeat_dataset # データセットの繰り返し回数
         })
 
+
     model = MusicGen.get_pretrained(model_id)
+    if resume_model_path:
+        model.lm.load_state_dict(torch.load(resume_model_path))
     model.lm = model.lm.to(torch.float32)  # important
 
     dataset = AudioDataset(dataset_path, no_label=no_label, repeat_dataset=repeat_dataset)
