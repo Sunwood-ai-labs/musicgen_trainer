@@ -19,6 +19,7 @@ parser.add_argument('--batch_size', type=int, required=False, default=4)
 parser.add_argument('--use_cfg', type=int, required=False, default=0)
 parser.add_argument('--repeat_dataset', type=int, required=False, default=1)
 parser.add_argument('--wandb_project', type=str, required=False, default='audiocraft')
+parser.add_argument('--resume_model_path', type=str, required=False, default=None)
 
 args = parser.parse_args()
 
@@ -39,4 +40,5 @@ train(
     use_cfg=args.use_cfg,
     repeat_dataset=args.repeat_dataset,  
     wandb_project=args.wandb_project,
+    resume_model_path=args.resume_model_path,
 )
