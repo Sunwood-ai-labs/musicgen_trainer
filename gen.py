@@ -72,5 +72,6 @@ print("gen_audio information")
 print("Shape:", gen_audio.shape)
 print("Dtype:", gen_audio.dtype)
 print("Contents:", gen_audio)
+
 gen_audio = gen_audio.cpu()
 torchaudio.save(args.save_path, gen_audio[0], self.sample_rate)
